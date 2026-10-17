@@ -1,9 +1,14 @@
 #include "main.h"
 
 // left motor group
-pros::MotorGroup left_motor_group({-1, 2, -3}, pros::MotorGears::blue);
+pros::MotorGroup left_motor_group({-15, -17, -16}, pros::MotorGears::blue);
 // right motor group
-pros::MotorGroup right_motor_group({4, -5, 6}, pros::MotorGears::green);
+pros::MotorGroup right_motor_group({20, 18, 19}, pros::MotorGears::green);
+
+//lift motors
+pros::Motor intake1(-7, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor intake2(8, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::Motor intake3(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
