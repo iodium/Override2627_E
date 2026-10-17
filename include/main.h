@@ -43,6 +43,7 @@
 //#include "okapi/api.hpp"
 
 #include "robotConfigs.hpp"
+#include "intake.hpp"
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

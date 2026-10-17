@@ -1,23 +1,24 @@
 #include "main.h"
 
 // left motor group
-pros::MotorGroup left_motor_group({-15, -17, -16}, pros::MotorGears::blue);
+pros::MotorGroup left_mg({-15, -17, -16}, pros::MotorGears::blue);
 // right motor group
-pros::MotorGroup right_motor_group({20, 18, 19}, pros::MotorGears::green);
+pros::MotorGroup right_mg({20, 18, 19}, pros::MotorGears::green);
 
-//lift motors
-pros::Motor intake1(-7, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor intake2(8, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
-pros::Motor intake3(9, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+// lift motors
+pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+
 
 // drivetrain settings
-lemlib::Drivetrain drivetrain(&left_motor_group, // left motor group
-                              &right_motor_group, // right motor group
+lemlib::Drivetrain drivetrain(&left_mg, // left motor group
+                              &right_mg, // right motor group
                               10, // 10 inch track width
                               lemlib::Omniwheel::NEW_4, // using new 4" omnis
                               360, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
+
+pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // imu
 pros::Imu imu(10);
@@ -70,18 +71,18 @@ lemlib::Chassis chassis(drivetrain, // drivetrain settings
 );
 
 // initialize function. Runs on program startup
-void initialize() {
-    pros::lcd::initialize(); // initialize brain screen
-    chassis.calibrate(); // calibrate sensors
-    // print position to brain screen
-    pros::Task screen_task([&]() {
-        while (true) {
-            // print robot location to the brain screen
-            pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
-            // delay to save resources
-            pros::delay(20);
-        }
-    });
-}
+// void initialize() {
+//     pros::lcd::initialize(); // initialize brain screen
+//     chassis.calibrate(); // calibrate sensors
+//     // print position to brain screen
+//     pros::Task screen_task([&]() {
+//         while (true) {
+//             // print robot location to the brain screen
+//             pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
+//             pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
+//             pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+//             // delay to save resources
+//             pros::delay(20);
+//         }
+//     });
+// }
