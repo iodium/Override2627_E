@@ -88,11 +88,22 @@ void opcontrol() {
 		chassis.arcade(dir, turn); //arcade drive
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            liftAscend(); // lift keeps going up as long as R1 is held
-        }
+            if (liftTooFar(false)) {
+				liftStop();
+			}
+			else {
+				liftAscend(); // lift keeps going up as long as R1 is held
+			}        
+		}
 		else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			liftDescend(); // lift keeps going down as long as R2 is held
-		} else {
+			if (liftTooFar(true)) {
+				liftStop();
+			}
+			else {
+				liftDescend(); // lift keeps going down as long as R2 is held
+			} 
+		} 
+		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}
 
