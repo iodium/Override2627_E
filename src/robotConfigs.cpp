@@ -1,5 +1,8 @@
 #include "main.h"
 
+#define DIGITAL_SENSOR_PORT_A 'A'
+pros::ADIPneumatics claw(DIGITAL_SENSOR_PORT_A, false);
+
 // left motor group
 pros::MotorGroup left_mg({-15, -17, -16}, pros::MotorGears::blue);
 // right motor group

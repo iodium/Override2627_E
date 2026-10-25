@@ -18,8 +18,11 @@ const char* currentMode = "initialize";
 void initialize() {
 	pros::lcd::initialize();
 	chassis.calibrate(); // calibrate sensors
+
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
 	toggle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+	colorSensor.set_led_pwm(100); // set led brightness for color sensor
 
 	pros::Task screen_task([]() {
 		while (true) {
@@ -106,20 +109,28 @@ void opcontrol() {
 				liftDescend(); // lift keeps going down as long as R2 is held
 			} 
 		} 
-		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			// red toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = true;
+			if (!autoToggleOn) {
+				toggle.move(0);
+			}
 		}
-		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
 			// red toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = false;
+			if (!autoToggleOn) {
+				toggle.move(0);
+			}
+		}
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			claw.toggle();
 		}
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}
-
 
 		//continuous macros
 		if (autoToggleOn) autoToggle(wantRedToggle);
