@@ -3,32 +3,33 @@
 #include "pros/misc.h"
 #include <cmath>
 
-bool colorsAreEqual(pros::c::optical_rgb_s_t c1, pros::c::optical_rgb_s_t c2) {
-    double dr = std::abs(c1.red - c2.red);
-    double dg = std::abs(c1.green - c2.green);
-    double db = std::abs(c1.blue - c2.blue);
+bool colorsAreEqual(double c1, double c2) {
+    double dc = std::abs(c1 - c2);
     
-    if (dr > 10 || dg > 10 || db > 10) {
+    
+    if (dc > 20) {
         return false;
     }
     return true;
 }
 
-void autoToggle(bool wantRed) {
-    pros::c::optical_rgb_s_t rgb = colorSensor.get_rgb(); // get current rgb its looking at
-    pros::c::optical_rgb_s_t rgbWanted; // hold desired rgb
+double autoToggle(bool wantRed) {
+    double rgb = colorSensor.get_hue(); // get current rgb its looking at
+    double rgbWanted; // hold desired rgb
 
     if (wantRed) { // set rgb for desired color 
-        rgbWanted = pros::c::optical_rgb_s_t{.red = 210, .green = 38, .blue = 48};
+        rgbWanted = 0;
     }
     else {
-        rgbWanted = pros::c::optical_rgb_s_t{.red = 0, .green = 119, .blue = 200};
+        rgbWanted = 226;
     }
 
     if (colorsAreEqual(rgb, rgbWanted)) { 
         toggle.move(0); // if current rgb matches desired one, stop toggle
+        return 1;
     }
     else {
         toggle.move(127); // if not, keep the toggle moving
+        return 0;
     }
 }

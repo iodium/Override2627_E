@@ -8,7 +8,9 @@
 // printing from more than one task (e.g. here and in opcontrol) corrupts the
 // screen library and can freeze the program. Other code sets this instead.
 const char* currentMode = "initialize";
-
+bool autoToggleOn;
+bool wantRedToggle;
+long lastToggle = 0;
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -85,8 +87,8 @@ void autonomous() { currentMode = "autonomous"; }
  */
 void opcontrol() {
 	currentMode = "opcontrol";
-	bool autoToggleOn = false;
-	bool wantRedToggle = true;
+	autoToggleOn = false;
+	wantRedToggle = true;
 
 	while (true) {
 		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
@@ -133,7 +135,15 @@ void opcontrol() {
 		}
 
 		//continuous macros
-		if (autoToggleOn) autoToggle(wantRedToggle);
+		if (autoToggleOn) {
+			double x = autoToggle(wantRedToggle);
+			if (x==1) {
+				if (lastToggle - pros::millis() > 500) {
+					autoToggleOn = !autoToggleOn;
+					lastToggle = pros::millis();
+				}
+			}
+		}
 		// do toggle macro if it's running
 
 		pros::delay(20);
