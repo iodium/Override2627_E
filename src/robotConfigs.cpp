@@ -5,9 +5,15 @@ pros::MotorGroup left_mg({-15, -17, -16}, pros::MotorGears::blue);
 // right motor group
 pros::MotorGroup right_mg({20, 18, 19}, pros::MotorGears::green);
 
-// lift motors
+// additional motors
+
 pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
+// motor for toggle
+pros::Motor toggle(11, pros::MotorGears::green, pros::v5::MotorUnits::degrees);
+
+// define color sensor
+pros::v5::Optical colorSensor(12); // sets port later
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group

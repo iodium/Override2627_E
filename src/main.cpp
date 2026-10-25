@@ -19,6 +19,7 @@ void initialize() {
 	pros::lcd::initialize();
 	chassis.calibrate(); // calibrate sensors
 	lift.set_brake_mode_all(pros::E_MOTOR_BRAKE_HOLD);
+	toggle.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
 	pros::Task screen_task([]() {
 		while (true) {
@@ -81,6 +82,8 @@ void autonomous() { currentMode = "autonomous"; }
  */
 void opcontrol() {
 	currentMode = "opcontrol";
+	bool autoToggleOn = false;
+	bool wantRedToggle = true;
 
 	while (true) {
 		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
@@ -103,9 +106,24 @@ void opcontrol() {
 				liftDescend(); // lift keeps going down as long as R2 is held
 			} 
 		} 
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+			// red toggle
+			autoToggleOn = !autoToggleOn;
+			wantRedToggle = true;
+		}
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			// red toggle
+			autoToggleOn = !autoToggleOn;
+			wantRedToggle = false;
+		}
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}
+
+
+		//continuous macros
+		if (autoToggleOn) autoToggle(wantRedToggle);
+		// do toggle macro if it's running
 
 		pros::delay(20);
 	}
