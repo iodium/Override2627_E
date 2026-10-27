@@ -11,6 +11,8 @@ const char* currentMode = "initialize";
 bool autoToggleOn;
 bool wantRedToggle;
 long lastToggle = 0;
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *

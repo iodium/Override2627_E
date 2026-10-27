@@ -1,8 +1,8 @@
 #include "main.h"
 #include <cstdint> // for int32_t
 
-const double UPPER_BOUND = 2;
-const double LOWER_BOUND = 2;
+const double UPPER_BOUND = 9.75;
+const double LOWER_BOUND = 0;
 
 void liftAscend(std::optional<int32_t> power) {
     int32_t p = power.value_or(127);
@@ -21,7 +21,7 @@ void liftStop() {
 bool liftTooFar(bool checkingMin) {
     std::vector<double> positions = lift.get_position_all();
     double max = 360 * UPPER_BOUND;
-    double min = -360 * LOWER_BOUND + 20;
+    double min = LOWER_BOUND-180;
     double avg = 0;
     for (double p : positions) {
         avg += p;
