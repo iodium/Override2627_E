@@ -138,11 +138,9 @@ void opcontrol() {
 
 		//continuous macros
 		if (autoToggleOn) {
-			// sensor is currently pointed at desired color
-			bool toggleStopped = autoToggle(wantRedToggle);
-
-			if (toggleStopped) {
-				if (pros::millis() - lastToggle > 500) {
+			double x = autoToggle(wantRedToggle);
+			if (x==1) {
+				if (lastToggle - pros::millis() > 1) {
 					autoToggleOn = !autoToggleOn;
 					lastToggle = pros::millis();
 				}

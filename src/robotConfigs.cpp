@@ -10,10 +10,10 @@ pros::MotorGroup right_mg({20, 18, 19}, pros::MotorGears::green);
 
 // additional motors
 
-pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::blue, pros::v5::MotorUnits::degrees);
+pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::green, pros::v5::MotorUnits::degrees);
 
 // motor for toggle
-pros::Motor toggle(11, pros::MotorGears::green, pros::v5::MotorUnits::degrees);
+pros::Motor toggle(11, pros::MotorGears::blue, pros::v5::MotorUnits::degrees);
 
 // define color sensor
 pros::v5::Optical colorSensor(12);

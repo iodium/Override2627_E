@@ -19,8 +19,8 @@ bool autoToggle(bool wantRed) {
     if (wantRed) { // set rgb for desired color 
         rgbWanted = 0; // hue value for red
     }
-    else { // if wantRed is false, then the desired color is blue
-        rgbWanted = 226; // hue value for blue
+    else {
+        rgbWanted = 40;
     }
 
     if (colorsAreEqual(rgb, rgbWanted)) { 
