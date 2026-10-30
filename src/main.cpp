@@ -122,7 +122,7 @@ void opcontrol() {
 			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-			// red toggle
+			// blue toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = false;
 			if (!autoToggleOn) {
