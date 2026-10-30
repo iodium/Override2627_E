@@ -16,7 +16,10 @@ pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::blue, pros::v5::MotorUni
 pros::Motor toggle(11, pros::MotorGears::green, pros::v5::MotorUnits::degrees);
 
 // define color sensor
-pros::v5::Optical colorSensor(12); // sets port later
+pros::v5::Optical colorSensor(12);
+
+// define claw sensor
+pros::v5::Distance clawSensor(15);
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group

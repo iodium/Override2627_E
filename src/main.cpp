@@ -148,8 +148,13 @@ void opcontrol() {
 				}
 			}
 		}
-		// do toggle macro if it's running
 
+		if (claw.is_extended()) {
+			autoClaw();
+		}
+
+		// do toggle macro if it's running
+		
 		pros::delay(20);
 	}
 }
