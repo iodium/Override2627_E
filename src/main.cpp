@@ -122,7 +122,7 @@ void opcontrol() {
 			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
-			// red toggle
+			// blue toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = false;
 			if (!autoToggleOn) {
@@ -138,9 +138,11 @@ void opcontrol() {
 
 		//continuous macros
 		if (autoToggleOn) {
-			double x = autoToggle(wantRedToggle);
-			if (x==1) {
-				if (lastToggle - pros::millis() > 500) {
+			// sensor is currently pointed at desired color
+			bool toggleStopped = autoToggle(wantRedToggle);
+
+			if (toggleStopped) {
+				if (pros::millis() - lastToggle > 500) {
 					autoToggleOn = !autoToggleOn;
 					lastToggle = pros::millis();
 				}
