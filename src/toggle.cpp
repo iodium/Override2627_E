@@ -21,7 +21,7 @@ double autoToggle(bool wantRed) {
         rgbWanted = 0;
     }
     else {
-        rgbWanted = 226;
+        rgbWanted = 40;
     }
 
     if (colorsAreEqual(rgb, rgbWanted)) { 

@@ -140,7 +140,7 @@ void opcontrol() {
 		if (autoToggleOn) {
 			double x = autoToggle(wantRedToggle);
 			if (x==1) {
-				if (lastToggle - pros::millis() > 500) {
+				if (lastToggle - pros::millis() > 1) {
 					autoToggleOn = !autoToggleOn;
 					lastToggle = pros::millis();
 				}
