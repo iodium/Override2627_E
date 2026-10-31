@@ -10,6 +10,7 @@
 const char* currentMode = "initialize";
 bool autoToggleOn;
 bool wantRedToggle;
+bool autoClawOn;
 long lastToggle = 0;
 
 
@@ -91,6 +92,9 @@ void opcontrol() {
 	currentMode = "opcontrol";
 	autoToggleOn = false;
 	wantRedToggle = true;
+	autoClawOn = true;
+
+	long toggleTimer = 0;
 
 	while (true) {
 		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
@@ -111,26 +115,38 @@ void opcontrol() {
 			}
 			else {
 				liftDescend(); // lift keeps going down as long as R2 is held
-			} 
+			}
 		} 
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
 			// red toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = true;
-			if (!autoToggleOn) {
+			if (autoToggleOn) {
+				toggleTimer = 0;
+			}
+			else {
 				toggle.move(0);
+				toggleTimer = 0;
 			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
 			// blue toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = false;
-			if (!autoToggleOn) {
+			if (autoToggleOn) {
+				toggleTimer = 0;
+			}
+			else {
 				toggle.move(0);
+				toggleTimer = 0;
 			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			claw.toggle();
+			autoClawOn = false;
+		}
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
+			autoClawOn = true;
 		}
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
@@ -138,20 +154,33 @@ void opcontrol() {
 
 		//continuous macros
 		if (autoToggleOn) {
-			double x = autoToggle(wantRedToggle);
-			if (x==1) {
-				if (lastToggle - pros::millis() > 1) {
-					autoToggleOn = !autoToggleOn;
-					lastToggle = pros::millis();
-				}
+			bool starting = false;
+			if (toggleTimer < 15) { // means 15 * 20 ms
+				starting = true;
 			}
+			autoToggle(wantRedToggle, true);
+			
+
+			// bool x = autoToggle(wantRedToggle);
+			// if (x) {
+			// 	if (pros::millis() - lastToggle > 1) {
+			// 		autoToggleOn = !autoToggleOn;
+			// 		lastToggle = pros::millis();
+			// 	}
+			// }
 		}
 
-		if (claw.is_extended()) {
-			autoClaw();
+		if (autoClawOn) { // if claw macro is primed
+			if (autoClaw()) { // if the macro actually closes the claw
+				autoClawOn = false; // unprime the macro
+			}
+			// else, keep it primed so it's ready to close 
+			// when the sensor sees a pin close enough
 		}
 
-		// do toggle macro if it's running
+		
+
+
 		
 		pros::delay(20);
 	}

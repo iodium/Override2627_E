@@ -21,7 +21,7 @@ void liftStop() {
 bool liftTooFar(bool checkingMin) {
     std::vector<double> positions = lift.get_position_all();
     double max = 360 * UPPER_BOUND;
-    double min = LOWER_BOUND-180;
+    double min = LOWER_BOUND - 90;
     double avg = 0;
     for (double p : positions) {
         avg += p;

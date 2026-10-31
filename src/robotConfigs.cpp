@@ -1,6 +1,7 @@
 #include "main.h"
 
 #define DIGITAL_SENSOR_PORT_A 'A'
+// define piston for claw
 pros::ADIPneumatics claw(DIGITAL_SENSOR_PORT_A, false);
 
 // left motor group
