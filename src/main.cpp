@@ -32,14 +32,14 @@ void initialize() {
 	pros::Task screen_task([]() {
 		while (true) {
 			// print robot location to the brain screen
-			// pros::lcd::print(0, "X: %f", chassis.getPose().x); // x
-			// pros::lcd::print(1, "Y: %f", chassis.getPose().y); // y
-			// pros::lcd::print(2, "Theta: %f", chassis.getPose().theta); // heading
+			pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
+			pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
+			pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // heading
 			// pros::lcd::print(3, "MODE: %s", currentMode);
 			// pros::lcd::print(7, "R1:%d R2:%d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1),
 			//                  controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
 			// // delay to save resources
-			// pros::delay(20);
+			pros::delay(20);
 		}
 	});
 }
@@ -158,16 +158,17 @@ void opcontrol() {
 			if (toggleTimer < 15) { // means 15 * 20 ms
 				starting = true;
 			}
-			autoToggle(wantRedToggle, true);
-			
-
-			// bool x = autoToggle(wantRedToggle);
-			// if (x) {
-			// 	if (pros::millis() - lastToggle > 1) {
-			// 		autoToggleOn = !autoToggleOn;
-			// 		lastToggle = pros::millis();
-			// 	}
-			// }
+			autoToggle(wantRedToggle, starting);
+			/**
+			 * asdfasdf;la jsd;flkasjdf 
+			 * CHECK THIS CHECK THIS 
+			 * IMPORTANT CHECK THIS 
+			 * CHECK DURING MEATETING TEST 
+			 * AS;DOFI JQAS WEW
+			 * !!!!!!!!!!!!1!!!!!!!!!!
+			 * SOMEONOBDY DHECK THUIS DURING MEETING ] 
+			 * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+			 */
 		}
 
 		if (autoClawOn) { // if claw macro is primed
