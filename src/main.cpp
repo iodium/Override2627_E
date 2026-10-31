@@ -3,6 +3,7 @@
 #include "pros/motors.h"
 #include "pros/motors.hpp"
 #include <bits/stdc++.h>
+#include <iostream>
 
 // Only screen_task may call pros::lcd functions. LLEMU/LVGL has no locking, so
 // printing from more than one task (e.g. here and in opcontrol) corrupts the
@@ -29,19 +30,20 @@ void initialize() {
 
 	colorSensor.set_led_pwm(100); // set led brightness for color sensor
 
-	pros::Task screen_task([]() {
-		while (true) {
-			// print robot location to the brain screen
-			pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
-			pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
-			pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // heading
-			// pros::lcd::print(3, "MODE: %s", currentMode);
-			// pros::lcd::print(7, "R1:%d R2:%d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1),
-			//                  controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
-			// // delay to save resources
-			pros::delay(20);
-		}
-	});
+	// pros::Task screen_task([]() {
+	// 	while (true) {
+	// 		// print robot location to the brain screen
+	// 		pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
+	// 		pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
+	// 		pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // heading
+	// 		pros::lcd::print(4, "raw: %d", toggleSensor.get_angle() / 100);
+	// 		// pros::lcd::print(3, "MODE: %s", currentMode);
+	// 		// pros::lcd::print(7, "R1:%d R2:%d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1),
+	// 		//                  controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
+	// 		// // delay to save resources
+	// 		pros::delay(20);
+	// 	}
+	// });
 }
 
 /**
@@ -146,29 +148,38 @@ void opcontrol() {
 			autoClawOn = false;
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-			autoClawOn = true;
+			// autoClawOn = true;
+			toggle.move_relative(180 * 2, 600); // times 2 because gear ratios; speed is in RPM (blue = 600 max)
 		}
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}
+		// wantRedToggle = true;
+		// bool rightColor = autoToggle(wantRedToggle, true);
+		// pros::lcd::print(0, "%d", rightColor);
 
 		//continuous macros
 		if (autoToggleOn) {
-			bool starting = false;
-			if (toggleTimer < 15) { // means 15 * 20 ms
-				starting = true;
+			// bool starting = false;
+			// if (toggleTimer < 15) { // means 15 * 20 ms
+			// 	starting = true;
+			// }
+			// toggleTimer++;
+			bool rightColor = autoToggle(wantRedToggle, true);
+			double c = colorSensor.get_hue();
+			if (wantRedToggle) {
+				if (colorsAreEqual(355.0, c)) {
+					toggle.move(35);
+				}
 			}
-			autoToggle(wantRedToggle, starting);
-			/**
-			 * asdfasdf;la jsd;flkasjdf 
-			 * CHECK THIS CHECK THIS 
-			 * IMPORTANT CHECK THIS 
-			 * CHECK DURING MEATETING TEST 
-			 * AS;DOFI JQAS WEW
-			 * !!!!!!!!!!!!1!!!!!!!!!!
-			 * SOMEONOBDY DHECK THUIS DURING MEETING ] 
-			 * ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-			 */
+			pros::lcd::print(0, "%d", rightColor);
+			if (rightColor) {
+				toggle.move(0);
+				autoToggleOn = false;
+			}
+			else {
+				toggle.move(70);
+			}
 		}
 
 		if (autoClawOn) { // if claw macro is primed
@@ -183,6 +194,6 @@ void opcontrol() {
 
 
 		
-		pros::delay(20);
+		pros::delay(2);
 	}
 }

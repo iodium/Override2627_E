@@ -24,10 +24,10 @@ bool autoToggle(bool wantRed, bool starting) {
 
     if (wantRed) { // set rgb for desired color 
         if (starting) {
-            rgbWanted = 40;
+            rgbWanted = 40; // hue value for yellow
         }
         else {
-            rgbWanted = 355; // hue value for red
+            rgbWanted = 355; // hue value for blue
         }
     }
     else {
@@ -35,16 +35,14 @@ bool autoToggle(bool wantRed, bool starting) {
             rgbWanted = 355;
         }
         else{
-            rgbWanted = 240;
+            rgbWanted = 240; 
         }
     }
 
     if (colorsAreEqual(rgb, rgbWanted)) { 
-        toggle.move(0); // if current rgb matches desired one, stop toggle
         return true;
     }
     else {
-        toggle.move(95); // if not, keep the toggle moving
         return false;
     }
 }

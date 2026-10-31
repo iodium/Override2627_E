@@ -9,6 +9,8 @@ pros::MotorGroup left_mg({-15, -17, -16}, pros::MotorGears::blue);
 // right motor group
 pros::MotorGroup right_mg({20, 18, 19}, pros::MotorGears::green);
 
+pros::Rotation toggleSensor(5);
+
 // additional motors
 
 pros::MotorGroup lift({-7, 8, 9}, pros::v5::MotorGears::green, pros::v5::MotorUnits::degrees);
@@ -26,7 +28,7 @@ pros::v5::Distance clawSensor(15);
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
                               10, // 10 inch track width
-                              lemlib::Omniwheel::NEW_4, // using new 4" omnis
+                              lemlib::Omniwheel::NEW_275, // using new 2" omnis
                               360, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );

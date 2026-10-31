@@ -12,8 +12,8 @@ extern pros::MotorGroup left_mg, right_mg;
 extern pros::MotorGroup lift;
 
 extern pros::Motor toggle;
-
 extern pros::v5::Optical colorSensor;
+extern pros::Rotation toggleSensor;
 
 extern pros::adi::DigitalOut clamp;
 extern pros::Imu imu;
