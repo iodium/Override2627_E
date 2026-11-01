@@ -18,31 +18,31 @@ bool colorsAreEqual(double c1, double c2) {
     return true;
 }
 
-bool autoToggle(bool wantRed, bool starting) {
+bool autoToggle(bool wantRed) {
     double rgb = colorSensor.get_hue(); // get current rgb its looking at
     double rgbWanted; // hold desired rgb
 
     if (wantRed) { // set rgb for desired color 
-        if (starting) {
             rgbWanted = 40; // hue value for yellow
-        }
-        else {
-            rgbWanted = 355; // hue value for blue
-        }
     }
     else {
-        if (starting) {
-            rgbWanted = 355;
-        }
-        else{
-            rgbWanted = 240; 
-        }
+            rgbWanted = 355; // hue value for red
     }
 
-    if (colorsAreEqual(rgb, rgbWanted)) { 
-        return true;
+    if (wantRed && colorsAreEqual(355, rgb)) {
+        toggle.move(35);
+        return false;
+    }
+    else if (wantRed && colorsAreEqual(240, rgb)) {
+        toggle.move(35);
+        return false;
+    }
+    else if (colorsAreEqual(rgb, rgbWanted)) { 
+        toggle.move(85);
+        return false;
     }
     else {
-        return false;
+        toggle.move(0);
+        return true;
     }
 }

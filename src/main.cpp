@@ -96,8 +96,6 @@ void opcontrol() {
 	wantRedToggle = true;
 	autoClawOn = true;
 
-	long toggleTimer = 0;
-
 	while (true) {
 		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
 		int turn = controller.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
@@ -123,25 +121,11 @@ void opcontrol() {
 			// red toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = true;
-			if (autoToggleOn) {
-				toggleTimer = 0;
-			}
-			else {
-				toggle.move(0);
-				toggleTimer = 0;
-			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
 			// blue toggle
 			autoToggleOn = !autoToggleOn;
 			wantRedToggle = false;
-			if (autoToggleOn) {
-				toggleTimer = 0;
-			}
-			else {
-				toggle.move(0);
-				toggleTimer = 0;
-			}
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
 			claw.toggle();
@@ -154,31 +138,12 @@ void opcontrol() {
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}
-		// wantRedToggle = true;
-		// bool rightColor = autoToggle(wantRedToggle, true);
-		// pros::lcd::print(0, "%d", rightColor);
 
 		//continuous macros
 		if (autoToggleOn) {
-			// bool starting = false;
-			// if (toggleTimer < 15) { // means 15 * 20 ms
-			// 	starting = true;
-			// }
-			// toggleTimer++;
-			bool rightColor = autoToggle(wantRedToggle, true);
-			double c = colorSensor.get_hue();
-			if (wantRedToggle) {
-				if (colorsAreEqual(355.0, c)) {
-					toggle.move(35);
-				}
-			}
-			pros::lcd::print(0, "%d", rightColor);
-			if (rightColor) {
-				toggle.move(0);
+			bool foundRightColor = autoToggle(wantRedToggle);
+			if (foundRightColor) {
 				autoToggleOn = false;
-			}
-			else {
-				toggle.move(70);
 			}
 		}
 
