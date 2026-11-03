@@ -14,6 +14,56 @@ bool wantRedToggle;
 bool autoClawOn;
 long lastToggle = 0;
 
+/**
+ * @brief Exponential function to scale output from controller joysticks
+ * @brief Helper function for throttleCurve() and steerCurve()
+ * @param input Input value from controller analog stick (out of 127)
+ * @param maxOut Maximum output out of 127 (generally equals max input)
+ * @param base base = b, where f(x) = a * b^x; changes how "curved" the function is
+ * @param base Should generally be between 1-1.1 (requires tuning based on driver preference)
+ * @param deadzone Stick's deadzone out of 127 (where output will be 0)
+ */
+double expoCurve(float input, float maxOut, float base, float deadzone) {
+    double a = maxOut / pow(base, maxOut);
+    float output;
+
+    if (fabs(input) < deadzone) {
+        return 0;
+    }
+    if (input < 0) {
+        return round(-a * pow(base, -input));
+    }
+    else {
+        return round(a * pow(base, input));
+    }
+}
+
+/**
+ * @brief Exponential function to scale output from controller joysticks for throttle
+ * @details Uses expoCurve() as a helper function
+ * @param input Input value from controller analog stick (out of 127)
+ * @param maxOut Maximum output out of 127 (generally equals max input)
+ * @param base base = b, where f(x) = a * b^x; changes how "curved" the function is
+ * @param base Should generally be between 1-1.1 (tune by preference)
+ * @param base Be careful with the base, as output values under .5 will become 0
+ * @param deadzone Stick's deadzone out of 127 (where output will be 0)
+ */
+double throttleCurve(float input, float maxOut, float base, float deadzone) {
+    return expoCurve(input, maxOut, base, deadzone);
+}
+
+/**
+ * @brief Exponential function to scale output from controller joysticks for steering
+ * @details Uses expoCurve() as a helper function
+ * @param input Input value from controller analog stick (out of 127)
+ * @param maxOut Maximum output out of 127 (generally equals max input)
+ * @param base base = b, where f(x) = a * b^x; changes how "curved" the function is
+ * @param base Should generally be between 1.02-1.1 (tune by preference)
+ * @param deadzone Stick's deadzone out of 127 (where output will be 0)
+ */
+double steerCurve(float input, float maxOut, float base, float deadzone) {
+    return expoCurve(input, maxOut, base, deadzone);
+}
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -97,9 +147,14 @@ void opcontrol() {
 	autoClawOn = true;
 
 	while (true) {
-		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		int turn = controller.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
-		chassis.arcade(dir, turn); //arcade drive
+		// vvv code for unscaled controller input vvv 
+		// int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
+		// int turn = controller.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+
+		double dir = throttleCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 127.0, 1.04, 10);
+		double turn = steerCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 127.0, 1.04, 10);
+
+		chassis.arcade(dir, turn); //arcade drive	
 
 		if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             if (liftTooFar(false)) {
