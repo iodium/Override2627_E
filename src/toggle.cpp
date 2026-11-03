@@ -26,10 +26,10 @@ bool autoToggle(bool wantRed) {
         return true;
     }
     else if (wantRed && colorsAreEqual(rgb, 260)) { // if we want red and color we see is blue
-        toggle.move(35); // slow down to prevent overshoot
+        toggle.move(80); // slow down to prevent overshoot
         return false;
     }
-    else { // if we want red and color the sensor sees is yellow (just keep it spinning)
+    else if (wantRed){ // if we want red and color the sensor sees is yellow (just keep it spinning)
         toggle.move(90);
         return false;
     }
@@ -39,7 +39,7 @@ bool autoToggle(bool wantRed) {
         return true;
     }
     else if (!wantRed && colorsAreEqual(rgb, 40)) { // if we want blue & color is yellow
-        toggle.move(35); // slow down to prepare
+        toggle.move(80); // slow down to prepare
         return false;
     }
     else { // we want blue and color is currently red (just keep it spinning)

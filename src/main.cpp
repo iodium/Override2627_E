@@ -125,7 +125,17 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() { currentMode = "autonomous"; }
+void autonomous() {
+	// chassis.calibrate();
+    // set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // // turn to face heading 90 with a very long timeout
+    // chassis.turnToHeading(180, 100000);
+	chassis.moveToPoint(0, 12, 1000);
+	pros::delay(3000);
+	chassis.moveToPoint(0, 24, 1000);
+
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -148,11 +158,11 @@ void opcontrol() {
 
 	while (true) {
 		// vvv code for unscaled controller input vvv 
-		// int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
-		// int turn = controller.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
+		int dir = controller.get_analog(ANALOG_LEFT_Y);    // Gets amount forward/backward from left joystick
+		int turn = controller.get_analog(ANALOG_RIGHT_X);  // Gets the turn left/right from right joystick
 
-		double dir = throttleCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 127.0, 1.04, 10);
-		double turn = steerCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 127.0, 1.04, 10);
+		// double dir = throttleCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y), 127.0, 1.04, 0.01);
+		// double turn = steerCurve(controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X), 127.0, 1.04, 0.01);
 
 		chassis.arcade(dir, turn); //arcade drive	
 
@@ -199,6 +209,9 @@ void opcontrol() {
 			if (foundRightColor) {
 				autoToggleOn = false;
 			}
+		}
+		else {
+			toggle.move(0);
 		}
 
 		if (autoClawOn) { // if claw macro is primed

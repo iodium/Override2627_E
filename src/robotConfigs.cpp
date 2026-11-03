@@ -5,9 +5,9 @@
 pros::ADIPneumatics claw(DIGITAL_SENSOR_PORT_A, false);
 
 // left motor group
-pros::MotorGroup left_mg({-15, -17, -16}, pros::MotorGears::blue);
+pros::MotorGroup left_mg({-17, -16}, pros::MotorGears::blue);
 // right motor group
-pros::MotorGroup right_mg({20, 18, 19}, pros::MotorGears::green);
+pros::MotorGroup right_mg({20, 19}, pros::MotorGears::blue);
 
 pros::Rotation toggleSensor(5);
 
@@ -27,8 +27,8 @@ pros::v5::Distance clawSensor(15);
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
-                              10, // 10 inch track width
-                              lemlib::Omniwheel::NEW_275, // using new 2" omnis
+                              13.5, // 13.5 inch track width
+                              lemlib::Omniwheel::NEW_275, // using 2" omnis
                               360, // drivetrain rpm is 360
                               2 // horizontal drift is 2 (for now)
 );
@@ -36,7 +36,7 @@ lemlib::Drivetrain drivetrain(&left_mg, // left motor group
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
 // imu
-pros::Imu imu(10);
+pros::Imu imu(3);
 // horizontal tracking wheel encoder
 pros::Rotation horizontal_encoder(4);
 // // vertical tracking wheel encoder
@@ -59,7 +59,7 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
 // lateral PID controller
 lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              3, // derivative gain (kD)
+                                              1, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
@@ -69,9 +69,9 @@ lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(0.95000067, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              10, // derivative gain (kD)
+                                              1.2067, // derivative gain (kD)
                                               3, // anti windup
                                               1, // small error range, in degrees
                                               100, // small error range timeout, in milliseconds
