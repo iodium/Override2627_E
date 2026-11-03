@@ -187,9 +187,8 @@ void opcontrol() {
 			autoClawOn = false;
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
-			// autoClawOn = true;
-			toggle.move_relative(180 * 2, 600); // times 2 because gear ratios; speed is in RPM (blue = 600 max)
-		}
+			autoClawOn = true;
+		}	
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
 		}

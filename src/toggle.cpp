@@ -12,7 +12,7 @@ bool colorsAreEqual(double c1, double c2) {
     }
     double dc = std::abs(c1 - c2);
 
-    if (dc > 20) {
+    if (dc > 25) {
         return false;
     }
     return true;
@@ -23,22 +23,28 @@ bool autoToggle(bool wantRed) {
     double rgbWanted; // hold desired rgb
 
     if (wantRed) { // set rgb for desired color 
-            rgbWanted = 40; // hue value for yellow
+        
+            rgbWanted = 0; // hue value for red
+        
+      
     }
     else {
-            rgbWanted = 355; // hue value for red
+       
+            rgbWanted = 255; //blue
+        
+      
     }
 
-    if (wantRed && colorsAreEqual(355, rgb)) {
-        toggle.move(35);
-        return false;
-    }
-    else if (wantRed && colorsAreEqual(240, rgb)) {
-        toggle.move(35);
-        return false;
-    }
-    else if (colorsAreEqual(rgb, rgbWanted)) { 
-        toggle.move(85);
+    // if (wantRed && colorsAreEqual(355, rgb)) { // if we want red and color we see is red
+    //     toggle.move(35);
+    //     return false;
+    // }
+    // else if (wantRed && colorsAreEqual(280, rgb)) { // if we want red and color we see is blue
+    //     toggle.move(35);
+    //     return false;
+    // }
+    if (!colorsAreEqual(rgb, rgbWanted)) {  // if color we want
+        toggle.move(90);
         return false;
     }
     else {
