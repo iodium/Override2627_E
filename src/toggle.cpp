@@ -22,33 +22,30 @@ bool autoToggle(bool wantRed) {
     double rgb = colorSensor.get_hue(); // get current rgb its looking at
     double rgbWanted; // hold desired rgb
 
-    if (wantRed) { // set rgb for desired color 
-        
-            rgbWanted = 0; // hue value for red
-        
-      
+    if (wantRed && colorsAreEqual(rgb, 355)) { // if we want red and color we see is red
+        toggle.move(0); // toggle is currently in the desired position
+        return true;
     }
-    else {
-       
-            rgbWanted = 255; //blue
-        
-      
+    else if (wantRed && colorsAreEqual(rgb, 260)) { // if we want red and color we see is blue
+        toggle.move(35); // slow down to prevent overshoot
+        return false;
     }
-
-    // if (wantRed && colorsAreEqual(355, rgb)) { // if we want red and color we see is red
-    //     toggle.move(35);
-    //     return false;
-    // }
-    // else if (wantRed && colorsAreEqual(280, rgb)) { // if we want red and color we see is blue
-    //     toggle.move(35);
-    //     return false;
-    // }
-    if (!colorsAreEqual(rgb, rgbWanted)) {  // if color we want
+    else { // if we want red and color the sensor sees is yellow (just keep it spinning)
         toggle.move(90);
         return false;
     }
-    else {
-        toggle.move(0);
+
+    if (!wantRed && colorsAreEqual(rgb, 260)) { // if we want blue and color is blue
+        toggle.move(0); // toggle is currently in desired position, so stop spinning
         return true;
     }
+    else if (!wantRed && colorsAreEqual(rgb, 40)) { // if we want blue & color is yellow
+        toggle.move(35); // slow down to prepare
+        return false;
+    }
+    else { // we want blue and color is currently red (just keep it spinning)
+        toggle.move(90);
+        return false;
+    }
+    
 }
