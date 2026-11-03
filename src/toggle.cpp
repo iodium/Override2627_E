@@ -20,7 +20,6 @@ bool colorsAreEqual(double c1, double c2) {
 
 bool autoToggle(bool wantRed) {
     double rgb = colorSensor.get_hue(); // get current rgb its looking at
-    double rgbWanted; // hold desired rgb
 
     if (wantRed && colorsAreEqual(rgb, 355)) { // if we want red and color we see is red
         toggle.move(0); // toggle is currently in the desired position

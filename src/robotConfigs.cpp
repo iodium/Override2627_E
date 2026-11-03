@@ -38,15 +38,15 @@ pros::Controller controller(pros::E_CONTROLLER_MASTER);
 // imu
 pros::Imu imu(10);
 // horizontal tracking wheel encoder
-pros::Rotation horizontal_encoder(20);
-// vertical tracking wheel encoder
-pros::adi::Encoder vertical_encoder('C', 'D', true);
+pros::Rotation horizontal_encoder(4);
+// // vertical tracking wheel encoder
+// pros::adi::Encoder vertical_encoder('C', 'D', true);
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -5.75);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.75);
 // dist from center for later
 
-// vertical tracking wheel
-lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -2.5);
+// // vertical tracking wheel
+// lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -2.5);
 
 // odometry settings
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
