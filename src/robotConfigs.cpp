@@ -42,7 +42,7 @@ pros::Rotation horizontal_encoder(4);
 // // vertical tracking wheel encoder
 // pros::adi::Encoder vertical_encoder('C', 'D', true);
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.75);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.5);
 // dist from center for later
 
 // // vertical tracking wheel
@@ -51,7 +51,7 @@ lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omn
 // odometry settings
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            nullptr, //&horizontal_tracking_wheel, // horizontal tracking wheel 1
+                            &horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
@@ -71,7 +71,7 @@ lemlib::ControllerSettings lateral_controller(8, // proportional gain (kP)
 // angular PID controller
 lemlib::ControllerSettings angular_controller(1.5, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              5.767, // derivative gain (kD)
+                                              5.7, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds
