@@ -131,9 +131,10 @@ void autonomous() {
     chassis.setPose(0, 0, 0);
     // // turn to face heading 90 with a very long timeout
     // chassis.turnToHeading(180, 100000);
-	chassis.moveToPoint(0, 12, 2000);
-	pros::delay(3000);
-	chassis.moveToPoint(0, 24, 2000);
+	pros::delay(500);
+	// chassis.moveToPoint(0, 12, 2000);
+	// pros::delay(3000);
+	chassis.moveToPoint(0, 24, 5000);
 	pros::delay(2000);
 	pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
 	pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
