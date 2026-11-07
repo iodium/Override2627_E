@@ -126,28 +126,73 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
+
+	left4pin(true);
+
+
+
+
+
+// debug code:
+
+	// pros::lcd::print(0, "AUTON STARTED");
+    // // Part 1: no LemLib. Does the drive respond to a direct command?
+    // left_mg.move(60);
+    // right_mg.move(60);
+    // pros::delay(1000);
+    // left_mg.move(0);
+    // right_mg.move(0);
+    // pros::delay(1000);
+
+    // // Part 2: LemLib. Log what the motion is doing while it runs.
+    // chassis.setPose(0, -60, 0);
+    // pros::delay(50);
+    // chassis.moveToPoint(0, -50, 5000);
+    // for (int i = 0; i < 60; i++) {
+    //     lemlib::Pose p = chassis.getPose();
+    //     pros::lcd::print(1, "X:%.2f Y:%.2f T:%.2f", p.x, p.y, p.theta);
+    //     pros::lcd::print(2, "IMU:%.2f moving:%d", imu.get_rotation(), chassis.isInMotion());
+    //     pros::lcd::print(3, "L:%d R:%d mV", left_mg.get_voltage(), right_mg.get_voltage());
+    //     printf("%d x=%.2f y=%.2f t=%.2f imu=%.2f moving=%d L=%d R=%d\n", i, p.x, p.y, p.theta,
+    //            imu.get_rotation(), chassis.isInMotion(), left_mg.get_voltage(), right_mg.get_voltage());
+    //     pros::delay(100);
+    // }
+
+
+
+
+
+
+
+	// chassis.setPose(0, -60, 0);
+	// // left4pin(true);
+	// pros::delay(1);
+    // chassis.moveToPose(0, -50, 0, 10000);
+
+
+	// pid tuning code vvv
 	// chassis.calibrate();
     // set position to x:0, y:0, heading:0
-    chassis.setPose(0, 0, 0);
-    // // turn to face heading 90 with a very long timeout
-	pros::delay(3000);
-    chassis.turnToHeading(90, 3000);
-	pros::delay(800);
-	pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
-	pros::delay(500);
-
-	chassis.turnToHeading(180, 3000);
-
-	// chassis.moveToPoint(0, 12, 2000);
+    // chassis.setPose(0, 0, 0);
+    // // // turn to face heading 90 with a very long timeout
 	// pros::delay(3000);
-	//chassis.moveToPoint(0, 24, 5000);
-	pros::delay(800);
-	pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // x
+    // chassis.turnToHeading(90, 3000);
+	// pros::delay(800);
+	// pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
+	// pros::delay(500);
 
-	pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
-	pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
-	pros::delay(500);
-	chassis.turnToHeading(270, 3000);
+	// chassis.turnToHeading(180, 3000);
+
+	// // chassis.moveToPoint(0, 12, 2000);
+	// // pros::delay(3000);
+	// //chassis.moveToPoint(0, 24, 5000);
+	// pros::delay(800);
+	// pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // x
+
+	// pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
+	// pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
+	// pros::delay(500);
+	// chassis.turnToHeading(270, 3000);
 	
 }
 
