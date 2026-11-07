@@ -5,7 +5,7 @@
 pros::ADIPneumatics claw(DIGITAL_SENSOR_PORT_A, false);
 
 // left motor group
-pros::MotorGroup left_mg({-17, -16}, pros::MotorGears::blue);
+pros::MotorGroup left_mg({-2, -16}, pros::MotorGears::blue);
 // right motor group
 pros::MotorGroup right_mg({20, 19}, pros::MotorGears::blue);
 
@@ -28,7 +28,7 @@ pros::v5::Distance clawSensor(15);
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
                               13.5, // 13.5 inch track width
-                              lemlib::Omniwheel::NEW_275, // using 2" omnis
+                              lemlib::Omniwheel::NEW_275, // using 2.75" omnis
                               450, // drivetrain rpm is 450
                               2 // horizontal drift is 2 (for now)
 );
