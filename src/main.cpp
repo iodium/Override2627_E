@@ -129,25 +129,27 @@ void autonomous() {
 	// chassis.calibrate();
     // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
+	pros::delay(500);
+	chassis.moveToPoint(0, 10, 1000);
     // // turn to face heading 90 with a very long timeout
-	pros::delay(3000);
-    chassis.turnToHeading(90, 3000);
-	pros::delay(800);
-	pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
-	pros::delay(500);
-
-	chassis.turnToHeading(180, 3000);
-
-	// chassis.moveToPoint(0, 12, 2000);
 	// pros::delay(3000);
-	//chassis.moveToPoint(0, 24, 5000);
-	pros::delay(800);
-	pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // x
+    // chassis.turnToHeading(90, 3000);
+	// pros::delay(800);
+	// pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
+	// pros::delay(500);
 
-	pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
-	pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
-	pros::delay(500);
-	chassis.turnToHeading(270, 3000);
+	// chassis.turnToHeading(180, 3000);
+
+	// // chassis.moveToPoint(0, 12, 2000);
+	// // pros::delay(3000);
+	// //chassis.moveToPoint(0, 24, 5000);
+	// pros::delay(800);
+	// pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // x
+
+	// pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
+	// pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
+	// pros::delay(500);
+	// chassis.turnToHeading(270, 3000);
 	
 }
 
