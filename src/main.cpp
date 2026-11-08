@@ -126,8 +126,9 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
+	pros::lcd::print(4, "raw: %d", "hello");
 	left4pin(true);
+	pros::lcd::print(1, "raw: %d", "e");
 
 
 
