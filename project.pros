@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "left4pin",
+    "project_name": "left4ping",
     "target": "v5",
     "templates": {
       "LemLib": {
