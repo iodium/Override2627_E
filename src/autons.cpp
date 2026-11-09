@@ -25,14 +25,14 @@ void left4pin(bool redTeam) {
         }
     }
 
-    chassis.turnToPoint(19.457, -52.282, 600, {.minSpeed = 20});
-    pros::delay(550);
+    chassis.turnToPoint(23.505, -47.161, 600, {.minSpeed = 10});
+    pros::delay(600);
 
     // drive to alliance goal
-    chassis.moveToPoint(21.457, -54,  750, {.maxSpeed = 127});
+    chassis.moveToPoint(19.786, -49.161,  750, {.maxSpeed = 127});
     pros::delay(750);
 
-    chassis.setPose(19.47, -52.465, chassis.getPose().theta);
+    chassis.setPose(17.47, -50.465, chassis.getPose().theta);
 
     lift.move_absolute(0, 127); // move the lift back down
     pros::delay(400);
@@ -43,78 +43,79 @@ void left4pin(bool redTeam) {
     chassis.moveToPoint(6.541, -59, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
     pros::delay(750);
 
-    chassis.turnToPoint(14, -63, 750, {.maxSpeed = 127, .minSpeed = 20}); // turn to a point before swinging
-    pros::delay(750);
+    // chassis.turnToPoint(14.193, -62, 750, {.maxSpeed = 127, .minSpeed = 10}); // turn to a point before swinging
+    // pros::delay(750);
 
-    chassis.moveToPoint(14, -63, 600, {.minSpeed = 40}); // drive to that point to set up swing for cup
-    pros::delay(600);
+    // chassis.moveToPoint(14.193, -62, 600, {.minSpeed = 10}); // drive to that point to set up swing for cup
+    // pros::delay(600);
 
-    chassis.swingToHeading(210, lemlib::DriveSide::RIGHT, 800, {.maxSpeed = 127}); // swing to put claw around cup
-    pros::delay(800);
+    // chassis.swingToHeading(210, lemlib::DriveSide::RIGHT, 800, {.maxSpeed = 127}); // swing to put claw around cup
+    // pros::delay(800);
 
-    left_mg.move(100);
-    right_mg.move(60);
-    pros::delay(200);
-    claw.extend();
-    pros::delay(50);
-    left_mg.move(0);
-    right_mg.move(0);
+    // // left_mg.move(100);
+    // // right_mg.move(60);
+    // // pros::delay(200);
+    // claw.extend();
+    // pros::delay(50);
+    // // left_mg.move(0);
+    // // right_mg.move(0);
 
-    chassis.setPose(23.481, -61, 180);
-    lift.move_absolute(360, 127);
+    // chassis.setPose(23.5, -61, 180);
+    // lift.move_absolute(360, 127);
 
-    chassis.turnToHeading(115, 600, {.maxSpeed = 127, .minSpeed = 40});
-    pros::delay(600);
+    // chassis.turnToHeading(115, 600, {.maxSpeed = 127, .minSpeed = 10});
+    // pros::delay(600);
 
-    chassis.moveToPoint(6.541, -59, 650, {.forwards = false, .maxSpeed = 127}); // back out to set up for 2nd score
-    pros::delay(650);
+    // chassis.moveToPoint(7.886, -54.137, 650, {.forwards = false, .maxSpeed = 127}); // back out to set up for 2nd score
+    // pros::delay(650);
+    // chassis.turnToPoint(23.505, -47.161, 500, {.maxSpeed = 127, .minSpeed = 10});
+    // pros::delay(500);
+    // chassis.moveToPoint(19.786, -49.161, 600, {.maxSpeed = 100}); // move to 2nd claw scoring
+    // pros::delay(600);
 
-    chassis.moveToPoint(23, -50.5, 600, {.maxSpeed = 100}); // move to 2nd claw scoring
-    pros::delay(600);
-
-    lift.move_absolute(180, 90); // lower lift and open claw to release the cup
-    pros::delay(400);
-    claw.retract();
+    // lift.move_absolute(180, 90); // lower lift and open claw to release the cup
+    // pros::delay(200);
+    // claw.retract();
     
-    chassis.setPose(19.71, -52.215, chassis.getPose().theta);
+    // chassis.setPose(17.591, -50.801, chassis.getPose().theta);
 
-    chassis.moveToPoint(2.47, -55.095, 700, {.forwards = false, .maxSpeed = 127, .minSpeed = 30});
-    pros::delay(700);
-    lift.move_absolute(0, 127);
+    // chassis.moveToPoint(2.47, -55.095, 700, {.forwards = false, .maxSpeed = 127, .minSpeed = 10});
+    // pros::delay(700);
+    // lift.move_absolute(0, 127);
 
-    chassis.turnToHeading(235, 600, {.maxSpeed = 127, .minSpeed = 50}); // turn around 180
-    pros::delay(600);
+    // chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10}); // turn around 180
+    // pros::delay(600);
 
-    chassis.moveToPoint(-10, -57, 700, {.maxSpeed = 127, .minSpeed = 30});
-    pros::delay(700);
+    // chassis.moveToPoint(-10, -57, 700, {.maxSpeed = 127, .minSpeed = 10});
+    // pros::delay(700);
 
-    chassis.swingToHeading(160, lemlib::DriveSide::LEFT, 800, {.maxSpeed = 127}); // swing to put claw around cup
-    pros::delay(800);
+    // chassis.swingToHeading(160, lemlib::DriveSide::LEFT, 800, {.maxSpeed = 127}); // swing to put claw around cup
+    // pros::delay(800);
 
-    right_mg.move(100);
-    left_mg.move(60);
-    pros::delay(200);
-    claw.extend();
-    pros::delay(250);
-    right_mg.move(0);
-    left_mg.move(0);
+    // right_mg.move(100);
+    // left_mg.move(60);
+    // pros::delay(200);
+    // claw.extend();
+    // pros::delay(250);
+    // right_mg.move(0);
+    // left_mg.move(0);
     
-    chassis.setPose(-23.481, -61, 180);
+    // chassis.setPose(-23.481, -61, 180);
 
-    lift.move_absolute(400, 127);
+    // lift.move_absolute(400, 127);
 
-    chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 40});
-    pros::delay(600);
+    // chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10});
+    // pros::delay(600);
 
-    chassis.moveToPoint(-6.541, -59, 650, {.forwards = false, .maxSpeed = 127});
-    pros::delay(650);
+    // chassis.moveToPoint(-6.541, -59, 650, {.forwards = false, .maxSpeed = 127});
+    // pros::delay(650);
 
-    chassis.moveToPoint(-23, -49.8, 600, {.maxSpeed = 127});
-    pros::delay(600);
+    // chassis.moveToPoint(-23, -49.8, 600, {.maxSpeed = 127});
+    // pros::delay(600);
 
-    lift.move_absolute(180, 90); // lower lift and open claw to release the cup
-    pros::delay(400);
-    claw.retract();
+    // lift.move_absolute(180, 90); // lower lift and open claw to release the cup
+    // pros::delay(400);
+    // claw.retract();
 
 }
 

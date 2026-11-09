@@ -27,8 +27,8 @@ pros::v5::Distance clawSensor(15);
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
-                              13.5, // 13.5 inch track width
-                              lemlib::Omniwheel::NEW_275, // using 2.75" omnis
+                              11.5, // 13.5 inch track width
+                              2.75, // using 2.75" omnis
                               450, // drivetrain rpm is 450
                               2 // horizontal drift is 2 (for now)
 );
@@ -42,7 +42,7 @@ pros::Rotation horizontal_encoder(4);
 // // vertical tracking wheel encoder
 // pros::adi::Encoder vertical_encoder('C', 'D', true);
 // horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2, -1.5);
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,2,  -1.25);
 // dist from center for later
 
 // // vertical tracking wheel
@@ -51,7 +51,7 @@ lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omn
 // odometry settings
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            nullptr, //&horizontal_tracking_wheel, // horizontal tracking wheel 1
+                            &horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
@@ -69,9 +69,9 @@ lemlib::ControllerSettings lateral_controller(8, // proportional gain (kP)
 );
 
 // angular PID controller
-lemlib::ControllerSettings angular_controller(1.5, // proportional gain (kP)
+lemlib::ControllerSettings angular_controller(1.8, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              5.7, // derivative gain (kD)
+                                              10, // derivative gain (kD)
                                               0, // anti windup
                                               0, // small error range, in degrees
                                               0, // small error range timeout, in milliseconds
