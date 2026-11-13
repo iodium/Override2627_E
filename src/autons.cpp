@@ -24,16 +24,22 @@ void left4pin(bool redTeam) {
             toggleDone = true;
         }
     }
-
+    chassis.moveToPoint(0, -57.5, 400, {.maxSpeed = 127, .minSpeed = 10});
+    pros::delay(400);
     chassis.turnToPoint(23.505, -47.161, 600, {.minSpeed = 10});
     pros::delay(600);
 
     // drive to alliance goal
     chassis.moveToPoint(19.786, -49.161,  750, {.maxSpeed = 127});
     pros::delay(750);
+     pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
+	pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
+	pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
 
-    chassis.setPose(17.47, -50.465, chassis.getPose().theta);
-
+    chassis.setPose(chassis.getPose().x, chassis.getPose().y, chassis.getPose().theta);
+    pros::lcd::print(3, "Theta: %.5f", chassis.getPose().theta); // x
+	pros::lcd::print(4, "X: %.5f", chassis.getPose().x); // x
+	pros::lcd::print(5, "Y: %.5f", chassis.getPose().y); // x
     lift.move_absolute(0, 127); // move the lift back down
     pros::delay(400);
 
@@ -42,9 +48,11 @@ void left4pin(bool redTeam) {
 
     chassis.moveToPoint(6.541, -59, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
     pros::delay(750);
-
-    // chassis.turnToPoint(14.193, -62, 750, {.maxSpeed = 127, .minSpeed = 10}); // turn to a point before swinging
-    // pros::delay(750);
+     pros::lcd::print(6, "Theta: %.5f", chassis.getPose().theta); // x
+	pros::lcd::print(7, "X: %.5f", chassis.getPose().x); // x
+	pros::lcd::print(8, "Y: %.5f", chassis.getPose().y); // x
+    chassis.turnToPoint(14.193, -62, 750, {.maxSpeed = 127, .minSpeed = 10}); // turn to a point before swinging
+    pros::delay(750);
 
     // chassis.moveToPoint(14.193, -62, 600, {.minSpeed = 10}); // drive to that point to set up swing for cup
     // pros::delay(600);
