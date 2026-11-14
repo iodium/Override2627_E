@@ -8,6 +8,9 @@ extern pros::ADIPneumatics claw;
 
 extern pros::v5::Distance clawSensor;
 
+extern pros::v5::Distance leftSensor;
+
+
 extern pros::MotorGroup left_mg, right_mg;
 extern pros::MotorGroup lift;
 

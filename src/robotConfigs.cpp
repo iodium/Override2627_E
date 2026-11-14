@@ -24,6 +24,8 @@ pros::v5::Optical colorSensor(12);
 // define claw sensor
 pros::v5::Distance clawSensor(15);
 
+pros::v5::Distance leftSensor(14);
+
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
                               &right_mg, // right motor group
