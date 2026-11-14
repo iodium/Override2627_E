@@ -12,7 +12,7 @@ bool colorsAreEqual(double c1, double c2) {
     }
     double dc = std::abs(c1 - c2);
 
-    if (dc > 25) {
+    if (dc > 30) {
         return false;
     }
     return true;
@@ -25,7 +25,7 @@ bool autoToggle(bool wantRed) {
         toggle.move(0); // toggle is currently in the desired position
         return true;
     }
-    else if (wantRed && colorsAreEqual(rgb, 260)) { // if we want red and color we see is blue
+    else if (wantRed && colorsAreEqual(rgb, 225)) { // if we want red and color we see is blue
         toggle.move(80); // slow down to prevent overshoot
         return false;
     }
@@ -34,11 +34,11 @@ bool autoToggle(bool wantRed) {
         return false;
     }
 
-    if (!wantRed && colorsAreEqual(rgb, 260)) { // if we want blue and color is blue
+    if (!wantRed && colorsAreEqual(rgb, 225)) { // if we want blue and color is blue
         toggle.move(0); // toggle is currently in desired position, so stop spinning
         return true;
     }
-    else if (!wantRed && colorsAreEqual(rgb, 40)) { // if we want blue & color is yellow
+    else if (!wantRed && colorsAreEqual(rgb, 50)) { // if we want blue & color is yellow
         toggle.move(80); // slow down to prepare
         return false;
     }

@@ -129,7 +129,7 @@ void autonomous() {
 
 	// pros::lcd::print(4, "raw: %d", "hello");
 	// right4pin(true);
-	left4pin(true);
+	right4pin(false);
 	// pros::lcd::print(1, "raw: %d", "e");
 
 
