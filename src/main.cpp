@@ -127,7 +127,9 @@ void competition_initialize() {}
  */
 void autonomous() {
 
-	left4pin(true);
+	// pros::lcd::print(4, "raw: %d", "hello");
+	//left4pin(true);
+	// pros::lcd::print(1, "raw: %d", "e");
 
 
 
@@ -173,20 +175,33 @@ void autonomous() {
 	// pid tuning code vvv
 	// chassis.calibrate();
     // set position to x:0, y:0, heading:0
-    // chassis.setPose(0, 0, 0);
-    // // // turn to face heading 90 with a very long timeout
-	// pros::delay(3000);
-    // chassis.turnToHeading(90, 3000);
-	// pros::delay(800);
-	// pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
-	// pros::delay(500);
-
-	// chassis.turnToHeading(180, 3000);
-
-	// // chassis.moveToPoint(0, 12, 2000);
+     chassis.setPose(0, 0, 0);
+    // // // // turn to face heading 90 with a very long timeout
 	// // pros::delay(3000);
-	// //chassis.moveToPoint(0, 24, 5000);
-	// pros::delay(800);
+    // chassis.turnToHeading(90, 1000);
+	// pros::delay(1000);
+	// pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
+	// pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
+	// pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
+
+	// //chassis.setPose(0, 10, 180);
+
+	
+	// pros::delay(1000);
+
+	// chassis.turnToHeading(270, 1000); // should only turn 90 deg
+	// pros::delay(1000);
+	// pros::lcd::print(3, "Theta: %.5f", chassis.getPose().theta); // x
+	// pros::lcd::print(4, "X: %.5f", chassis.getPose().x); // x
+	// pros::lcd::print(5, "Y: %.5f", chassis.getPose().y); // x
+	chassis.moveToPoint(0, 12, 1500);
+	pros::delay(1500);
+	pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
+	pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
+	chassis.moveToPoint(0, 24, 1500);
+	pros::delay(1500);
+	pros::lcd::print(3, "X: %.5f", chassis.getPose().x); // x
+	pros::lcd::print(4, "Y: %.5f", chassis.getPose().y); // x
 	// pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // x
 
 	// pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
