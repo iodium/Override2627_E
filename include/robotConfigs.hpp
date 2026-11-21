@@ -5,6 +5,7 @@
 extern pros::Controller controller;
 
 extern pros::ADIPneumatics claw;
+extern pros::ADIPneumatics doinker;
 
 extern pros::v5::Distance clawSensor;
 

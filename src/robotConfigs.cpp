@@ -1,8 +1,10 @@
 #include "main.h"
 
 #define DIGITAL_SENSOR_PORT_A 'A'
+#define DIGITAL_SENSOR_PORT_G 'G'
 // define piston for claw
 pros::ADIPneumatics claw(DIGITAL_SENSOR_PORT_A, false);
+pros::ADIPneumatics doinker(DIGITAL_SENSOR_PORT_G, false);
 
 // left motor group
 pros::MotorGroup left_mg({-2, -16}, pros::MotorGears::blue);
