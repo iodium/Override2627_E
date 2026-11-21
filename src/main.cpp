@@ -81,18 +81,20 @@ void initialize() {
 	colorSensor.set_led_pwm(100); // set led brightness for color sensor
 
 	// pros::Task screen_task([]() {
-	// 	while (true) {
-	// 		// print robot location to the brain screen
-	// 		pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
-	// 		pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
-	// 		pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // heading
-	// 		pros::lcd::print(4, "raw: %d", toggleSensor.get_angle() / 100);
-	// 		// pros::lcd::print(3, "MODE: %s", currentMode);
-	// 		// pros::lcd::print(7, "R1:%d R2:%d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1),
-	// 		//                  controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
-	// 		// // delay to save resources
-	// 		pros::delay(20);
-	// 	}
+	// 	// while (true) {
+
+
+	// 	// 	// print robot location to the brain screen
+	// 	// 	// pros::lcd::print(0, "X: %.5f", chassis.getPose().x); // x
+	// 	// 	// pros::lcd::print(1, "Y: %.5f", chassis.getPose().y); // y
+	// 	// 	// pros::lcd::print(2, "Theta: %.5f", chassis.getPose().theta); // heading
+	// 	// 	// pros::lcd::print(4, "raw: %d", toggleSensor.get_angle() / 100);
+	// 	// 	// // pros::lcd::print(3, "MODE: %s", currentMode);
+	// 	// 	// // pros::lcd::print(7, "R1:%d R2:%d", controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1),
+	// 	// 	// //                  controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
+	// 	// 	// // // delay to save resources
+	// 	// 	pros::delay(20);
+	// 	// }
 	// });
 }
 
@@ -126,11 +128,8 @@ void competition_initialize() {}
  * from where it left off.
  */
 void autonomous() {
-
-	// pros::lcd::print(4, "raw: %d", "hello");
-	// right4pin(true);
-	right4pin(false);
-	// pros::lcd::print(1, "raw: %d", "e");
+	doinker.retract();
+	left4pin(true);
 
 
 
@@ -273,6 +272,9 @@ void opcontrol() {
 		}
 		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)) {
 			autoClawOn = true;
+		}
+		else if (controller.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
+			doinker.toggle();
 		}	
 		else {
 			liftStop(); // if nothing is held, lift stays stopped
@@ -298,7 +300,6 @@ void opcontrol() {
 		}
 
 		
-
 
 		
 		pros::delay(2);

@@ -26,7 +26,8 @@ pros::v5::Optical colorSensor(12);
 // define claw sensor
 pros::v5::Distance clawSensor(15);
 
-pros::v5::Distance leftSensor(14);
+pros::v5::Distance rightMountedSensor(18);
+Sensor rightSensor{rightMountedSensor, -7.5, 5, 90};
 
 // drivetrain settings
 lemlib::Drivetrain drivetrain(&left_mg, // left motor group
@@ -46,18 +47,20 @@ pros::Imu imu(3);
 pros::Rotation horizontal_encoder(4);
 // // vertical tracking wheel encoder
 // pros::adi::Encoder vertical_encoder('C', 'D', true);
-// horizontal tracking wheel
-lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder,2,  -1.25);
-// dist from center for later
 
-// // vertical tracking wheel
-// lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, -2.5);
+pros::Rotation vertical_encoder(6);
+
+// horizontal tracking wheel
+lemlib::TrackingWheel horizontal_tracking_wheel(&horizontal_encoder, lemlib::Omniwheel::NEW_2,  -1.25);
+
+// vertical tracking wheel
+lemlib::TrackingWheel vertical_tracking_wheel(&vertical_encoder, lemlib::Omniwheel::NEW_2, 0.75);
 // // vertical tracking wheel encoder
 // pros::adi::Encoder vertical_encoder('C', 'D', true);
 // horizontal tracking wheel
 
 // odometry settings
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel 1, set to null
+lemlib::OdomSensors sensors(&vertical_tracking_wheel, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
                             &horizontal_tracking_wheel, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
