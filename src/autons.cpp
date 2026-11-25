@@ -490,7 +490,7 @@ void skills(bool redTeam) {
     uint32_t startTime = pros::millis();
 
     bool toggleDone = false; // this block flips the toggle to desired color
-    while (!toggleDone) { // (before moving on)
+    while (!toggleDone) { // (before movin)
         toggleDone = autoToggle(redTeam);
         if (pros::millis() - startTime > 2000) {
             toggleDone = true;
