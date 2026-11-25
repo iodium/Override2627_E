@@ -42,12 +42,13 @@
  */
 //#include "okapi/api.hpp"
 
+#include "sensor.hpp"
 #include "robotConfigs.hpp"
 #include "intake.hpp"
 #include "toggle.hpp"
 #include "claw.hpp"
 #include "autons.hpp"
-#include "sensor.hpp"
+
 
 /**
  * If you find doing pros::Motor() to be tedious and you'd prefer just to do

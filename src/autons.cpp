@@ -521,10 +521,7 @@ void JADum(int count){
     pros::delay(1000);
 
     // chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10}); -> This is the reference code
-    chassis.turnToHeading(0, 600, {
-        .maxSpeed = 100,
-        .minSpeed = 10
-    });
+    chassis.turnToHeading(0, 600, {.maxSpeed = 100, .minSpeed = 10});
     pros::delay(600);
 
     lift.move_absolute(pinRotations[count]*360, 100); // The origional 540/127 was DEGREES right?
@@ -591,7 +588,7 @@ void skills(bool redTeam) {
 
     // first pin score (unchanged)
     waitLift(270);
-    lift.move_absolute(135, 127);
+    lift.move_absolute(200, 127);
     pros::delay(500);
 
     claw.retract(); // open the claw to drop the pin
@@ -612,13 +609,13 @@ void skills(bool redTeam) {
     chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
     
-    chassis.turnToPoint(24.189, -24.862, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
-    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 90, .minSpeed = 35, .earlyExitRange = 7});
-    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 30});
-    while (clawSensor.get() > 45) {
+    chassis.turnToPoint(20.647, -29.354, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
+    chassis.moveToPoint(20.647, -29.354, 1000, {.maxSpeed = 70});
+    
+    while (clawSensor.get() > 60) {
 
     }
-    claw.extend();
+    claw.extend(); // grabs second pin/cup
     chassis.waitUntilDone();
 
     lift.move_absolute(405, 127);
@@ -627,13 +624,144 @@ void skills(bool redTeam) {
     chassis.turnToPoint(25, -40.078, 600);
     chassis.moveToPoint(25, -40.078, 800);
     chassis.waitUntilDone();
+    
+    // RESET
+    double Dx = getResetDistance(rightSensor, 3, chassis.getPose().theta);
+    double x = Dx - 70;
+    // if (x < 28) {
+    // chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+    // }
+    
     lift.move_absolute(135, 127);
     pros::delay(300);
-    claw.retract();
+    claw.retract(); // score second pin/cup
     pros::delay(100);
-    chassis.moveToPoint(24.534, -32.965, 600);
     
+    chassis.moveToPoint(24.534, -25, 1250, {.forwards = false});
+    chassis.waitUntilDone();
+
+    // // RESET
+    // Dx = getResetDistance(rightSensor, 3, chassis.getPose().theta);
+    // x = Dx - 70;
+    // if (20 < x < 28) {
+    //     chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+    // }
+
+    chassis.turnToPoint(43.293, -40.796, 600, {.minSpeed = 50});
+    lift.move_absolute(50, 127);
+    chassis.moveToPoint(43.293, -40.796, 1000, {.maxSpeed = 60});
+
+    while (clawSensor.get() > 55) {
+
+    }
+
+    claw.extend();
+    chassis.waitUntilDone();
+
+    lift.move_absolute(600, 127);
+    pros::delay(300);
+
+    chassis.turnToPoint(30.5, -47.655, 600, {.maxSpeed = 127, .minSpeed = 40, .earlyExitRange = 5});
+    chassis.moveToPoint(30.5, -47.655, 600, {.maxSpeed = 127});
+    chassis.waitUntilDone();
+
+    lift.move_absolute(400, 127);
+
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+
+    pros::delay(400);
+    claw.retract();
+    pros::delay(200);
+
+    chassis.moveToPoint(58, -47.655, 1000, {.forwards = false});
+    lift.move_absolute(0, 127);
+    chassis.waitUntilDone();
     
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+
+    chassis.turnToHeading(180, 600);
+    
+    chassis.moveToPoint(58, -66.871, 1000); // drive into loader
+    chassis.waitUntilDone();
+    claw.extend(); // grab match load
+    pros::delay(400);
+
+    chassis.setPose(chassis.getPose().x, chassis.getPose().y, 180);
+    
+    lift.move_absolute(135, 127);
+    chassis.moveToPoint(58, -44.655, 800, {.forwards = false}); // back out from loader
+    pros::delay(400);
+    lift.move_absolute(840, 127); // raise lift enough to score
+    
+    chassis.turnToPoint(25.178, -43.021, 700); // turn to goal
+    pros::delay(100);
+
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+    
+    chassis.moveToPoint(25.178, -43.021, 1000, {.maxSpeed = 60}); // move to goal
+    pros::delay(1000);
+    lift.move_absolute(580, 127);
+    claw.retract(); // release pin onto goal
+
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+    
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+
+    pros::delay(400);
+    claw.retract();
+    pros::delay(200);
+
+    chassis.moveToPoint(58, -47.655, 1000, {.forwards = false});
+    lift.move_absolute(0, 127);
+    chassis.waitUntilDone();
+    
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+
+    chassis.turnToHeading(180, 600);
+    
+    chassis.moveToPoint(58, -66.871, 1000); // drive into loader
+    chassis.waitUntilDone();
+    claw.extend(); // grab match load
+    chassis.setPose(58.667, -58.667, chassis.getPose().theta);
+    pros::delay(400);
+
+    chassis.setPose(chassis.getPose().x, chassis.getPose().y, 180);
+    
+    lift.move_absolute(135, 127);
+    chassis.moveToPoint(58, -44.655, 800, {.forwards = false}); // back out from loader
+    pros::delay(400);
+    lift.move_absolute(840, 127); // raise lift enough to score
+    chassis.turnToPoint(25.178, -43.021, 700); // turn to goal
+    pros::delay(100);
+
+    // RESET
+    Dx = getResetDistance(backSensor, 1, chassis.getPose().theta);
+    x = 70 - Dx;
+    chassis.setPose(x, chassis.getPose().y, chassis.getPose().theta);
+    
+    chassis.moveToPoint(25.178, -43.021, 1000, {.maxSpeed = 60}); // move to goal
+    pros::delay(1000);
+    lift.move_absolute(580, 127);
+    claw.retract(); // release pin onto goal
+
 }
 
 

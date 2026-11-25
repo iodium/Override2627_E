@@ -1,15 +1,17 @@
 #pragma once
+#include "sensor.hpp"
 #include "main.h"
 #include "lemlib/api.hpp"
 
 extern pros::Controller controller;
 
 extern pros::ADIPneumatics claw;
+extern pros::ADIPneumatics doinker;
 
 extern pros::v5::Distance clawSensor;
 
-extern pros::v5::Distance leftSensor;
-
+extern Sensor rightSensor;
+extern Sensor backSensor;
 
 extern pros::MotorGroup left_mg, right_mg;
 extern pros::MotorGroup lift;

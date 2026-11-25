@@ -1,3 +1,5 @@
+
+#include "sensor.hpp"
 #include "main.h"
 
 #define DIGITAL_SENSOR_PORT_A 'A'
