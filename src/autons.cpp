@@ -7,6 +7,16 @@
 
 std::string_view s = "s";
 
+double getResetDistance(Sensor& s, int wall, double theta) {
+    double beam = s.sensor.get() / 25.4;   // mm -> inches
+    double w = wall * 90;
+    double toRad = M_PI / 180.0;
+    double beamPart    = beam * cos((theta + s.angle - w) * toRad);
+    double forwardPart = s.forward  * cos((theta - w) * toRad);
+    double rightPart   = s.right  * cos((theta + 90 - w) * toRad);
+    return beamPart + forwardPart + rightPart;
+}
+
 void left4pin(bool redTeam) {
     chassis.setPose(0, -61.515, 0);
 
@@ -50,99 +60,99 @@ void left4pin(bool redTeam) {
 	pros::lcd::print(0, "sensor reading= %.5f", rightSensor.sensor.get() / 25.4);
 		
 
-    // chassis.moveToPoint(14, -55, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
-    // pros::delay(750);
+    chassis.moveToPoint(14, -55, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
+    pros::delay(750);
 
-    // for (int i = 0; i < 1; i++) {
-    //     double theta = (90 - chassis.getPose().theta) * M_PI / 180;
-    //     double beam = rightSensor.sensor.get() / 25.4;
-    //     double a = rightSensor.forward * sin(theta);
-    //     double b = rightSensor.right * cos(theta);
-    //     double c = beam * cos(theta);
-    //     double D = -a + b + c;
-    //     y = -70 + D;
-    // }
+    for (int i = 0; i < 1; i++) {
+        double theta = (90 - chassis.getPose().theta) * M_PI / 180;
+        double beam = rightSensor.sensor.get() / 25.4;
+        double a = rightSensor.forward * sin(theta);
+        double b = rightSensor.right * cos(theta);
+        double c = beam * cos(theta);
+        double D = -a + b + c;
+        y = -70 + D;
+    }
 
-    // chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
+    chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
-    // chassis.turnToPoint(19, -60, 750, {.maxSpeed = 127}); // turn to a point before swinging
-    // pros::delay(750);
+    chassis.turnToPoint(19, -60, 750, {.maxSpeed = 127}); // turn to a point before swinging
+    pros::delay(750);
 
-    // lift.move_absolute(0, 127);
+    lift.move_absolute(0, 127);
 
-    // for (int i = 0; i < 1; i++) {
-    //     double theta = (90 - chassis.getPose().theta) * M_PI / 180;
-    //     double beam = rightSensor.sensor.get() / 25.4;
-    //     double a = rightSensor.forward * sin(theta);
-    //     double b = rightSensor.right * cos(theta);
-    //     double c = beam * cos(theta);
-    //     double D = -a + b + c;
-    //     y = -70 + D;
-    // }
+    for (int i = 0; i < 1; i++) {
+        double theta = (90 - chassis.getPose().theta) * M_PI / 180;
+        double beam = rightSensor.sensor.get() / 25.4;
+        double a = rightSensor.forward * sin(theta);
+        double b = rightSensor.right * cos(theta);
+        double c = beam * cos(theta);
+        double D = -a + b + c;
+        y = -70 + D;
+    }
 
-    // chassis.moveToPoint(19, -60, 1000, {.maxSpeed = 80, .minSpeed = 10}); // drive to that point to set up swing for cup
-    // pros::delay(1000);
+    chassis.moveToPoint(19, -60, 1000, {.maxSpeed = 80, .minSpeed = 10}); // drive to that point to set up swing for cup
+    pros::delay(1000);
 
-    // chassis.swingToHeading(200, lemlib::DriveSide::RIGHT, 1000, {.maxSpeed = 127}); // swing to put claw around cup
-    // pros::delay(1000);
+    chassis.swingToHeading(200, lemlib::DriveSide::RIGHT, 1000, {.maxSpeed = 127}); // swing to put claw around cup
+    pros::delay(1000);
 
-    // left_mg.move(100);
-    // right_mg.move(40);
-    // pros::delay(200);
-    // claw.extend();
-    // pros::delay(250);
-    // left_mg.move(0);
-    // right_mg.move(0);
+    left_mg.move(100);
+    right_mg.move(40);
+    pros::delay(200);
+    claw.extend();
+    pros::delay(250);
+    left_mg.move(0);
+    right_mg.move(0);
     
-    // for (int i = 0; i < 1; i++) {
-    //     double x_offset = rightSensor.sensor.get() / 25.4;
-    //     double x = x_offset - 70;
-    //     chassis.setPose(x, -61, 180);
-    // }
+    for (int i = 0; i < 1; i++) {
+        double x_offset = rightSensor.sensor.get() / 25.4;
+        double x = x_offset - 70;
+        chassis.setPose(x, -61, 180);
+    }
 
-    // // chassis.setPose(23.668, -61, 180);
+    // chassis.setPose(23.668, -61, 180);
     
-    // lift.move_absolute(360, 127);
+    lift.move_absolute(360, 127);
 
-    // chassis.turnToHeading(115, 1000, {.maxSpeed = 127, .minSpeed = 10});
-    // pros::delay(1000);
+    chassis.turnToHeading(115, 1000, {.maxSpeed = 127, .minSpeed = 10});
+    pros::delay(1000);
 
-    // for (int i = 0; i < 1; i++) {
-    //     double theta = (90 - chassis.getPose().theta) * M_PI / 180;
-    //     double beam = rightSensor.sensor.get() / 25.4;
-    //     double a = rightSensor.forward * sin(theta);
-    //     double b = rightSensor.right * cos(theta);
-    //     double c = beam * cos(theta);
-    //     double D = -a + b + c;
-    //     y = -70 + D;
-    // }
+    for (int i = 0; i < 1; i++) {
+        double theta = (90 - chassis.getPose().theta) * M_PI / 180;
+        double beam = rightSensor.sensor.get() / 25.4;
+        double a = rightSensor.forward * sin(theta);
+        double b = rightSensor.right * cos(theta);
+        double c = beam * cos(theta);
+        double D = -a + b + c;
+        y = -70 + D;
+    }
 
-    // chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
+    chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
-    // chassis.moveToPoint(6.432, -54.763, 650, {.forwards = false, .maxSpeed = 127}); // back out to set up for 2nd score
-    // pros::delay(650);
+    chassis.moveToPoint(6.432, -54.763, 650, {.forwards = false, .maxSpeed = 127}); // back out to set up for 2nd score
+    pros::delay(650);
 
-    // for (int i = 0; i < 1; i++) {
-    //     double theta = (90 - chassis.getPose().theta) * M_PI / 180;
-    //     double beam = rightSensor.sensor.get() / 25.4;
-    //     double a = rightSensor.forward * sin(theta);
-    //     double b = rightSensor.right * cos(theta);
-    //     double c = beam * cos(theta);
-    //     double D = -a + b + c;
-    //     y = -70 + D;
-    // }
+    for (int i = 0; i < 1; i++) {
+        double theta = (90 - chassis.getPose().theta) * M_PI / 180;
+        double beam = rightSensor.sensor.get() / 25.4;
+        double a = rightSensor.forward * sin(theta);
+        double b = rightSensor.right * cos(theta);
+        double c = beam * cos(theta);
+        double D = -a + b + c;
+        y = -70 + D;
+    }
 
-    // chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
+    chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
-    // chassis.turnToPoint(23.505, -47, 500, {.maxSpeed = 127, .minSpeed = 10});
-    // pros::delay(500);
+    chassis.turnToPoint(23.505, -47, 500, {.maxSpeed = 127, .minSpeed = 10});
+    pros::delay(500);
 
-    // chassis.moveToPoint(17.449, -47, 600, {.maxSpeed = 100}); // move to 2nd claw scoring
-    // pros::delay(600);
+    chassis.moveToPoint(17.449, -47, 600, {.maxSpeed = 100}); // move to 2nd claw scoring
+    pros::delay(600);
 
-    // lift.move_absolute(180, 90); // lower lift and open claw to release the cup
-    // pros::delay(200);
-    // claw.retract();
+    lift.move_absolute(180, 90); // lower lift and open claw to release the cup
+    pros::delay(200);
+    claw.retract();
     
     // // chassis.setPose(17.591, -50.801, chassis.getPose().theta);
 
