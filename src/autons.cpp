@@ -481,7 +481,98 @@ void right4pin(bool redTeam) {
 	// pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
 }
 
+void JADum(int count){
+   // The goal of this is to just do an L-Shape
+   /* Psuedocode
+    * start: (-180.759, -149.765, 270)
+    * Go: (-118.302, -149.765, 270)    -> BACKwards
+    * Turn right to heading 0
+    * Start cascade up to a specific portion
+    * Go: (-118.302, -69.219)          -> Forwards
+    * Claw Open
+    * Go: (-118.302, -149.765) -> BACKwards
+    * Cascade down
+    * Turn left to heading 270
+    * go: (-180.759, -149.765, 270)    -> Forwards
+    */
+
+    // Cascade calculations (derived from notebook) -> 9.75 rotations Is the max height for 6-7(?) pins or 43 inches
+    /*
+    Pins Scored (Index i)	Target Height (in)	Motor Rotations
+    0	                    0.0 in	            0.00
+    1	                    7.0 in	            1.59
+    2	                    13.5 in	            3.06
+    3	                    20.0 in	            4.53
+    4	                    26.5 in	            6.01
+    5	                    33.0 in	            7.48
+    6	                    39.5 in	            8.96
+    */
+
+    // Wait aren't there 2 pins already there
+    double pinRotations[3] = {4.53, 6.01, 7.48};
+    const double centi = 2.54; // Movement is in inches right?
+
+    chassis.setPose(-180/centi, -149.765/centi, 270); // Start
+    chassis.moveToPoint(-118.302/centi, -149.765/centi, 1000, {  // Drive horizontally along the X axis
+        .forwards = false,
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(1000);
+
+    // chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10}); -> This is the reference code
+    chassis.turnToHeading(0, 600, {
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(600);
+
+    lift.move_absolute(pinRotations[count]*360, 100); // The origional 540/127 was DEGREES right?
+
+    // Drive vertically along the Y axis
+    chassis.moveToPoint(-118.302/centi, -69.219/centi, 1000, {
+        .forwards = true,
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(1000);
+
+    // Open claw to release
+    claw.retract();
+    pros::delay(200);
+
+    // Pin has been theoretically dropped
+
+    // Lower cascade
+    lift.move_absolute(-1*pinRotations[count]*60, 100); // The origional 540/127 was DEGREES right?
+    pros::delay(400);
+
+    // Traverse the y axis
+    chassis.moveToPoint(-118.302/centi, -149.765/centi, 1000, {
+        .forwards = false,
+        .maxSpeed = 127
+        });
+    pros::delay(1000);
+
+    // Turn left to face heading 270
+    chassis.turnToHeading(270, 750, {
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(750);
+
+    // Go back to the start to load the next pin
+    chassis.moveToPoint(-185/centi, -149.765/centi, 400, {
+        .forwards = true,
+        .maxSpeed = 127
+        });
+    pros::delay(400);
+}
+
 void skills(bool redTeam) {
+    for(int i = 0; i < 3; i++){
+        JaDum(i);
+    }
     chassis.setPose(0, -61.515, 0);
 
     claw.extend(); // retracts claw to grab hold of the preload
