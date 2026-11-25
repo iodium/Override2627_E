@@ -540,7 +540,9 @@ void skills(bool redTeam) {
     chassis.moveToPoint(25, -40.078, 800);
 
     lift.move_absolute(135, 127);
-
+    pros::delay(300);
+    claw.retract();
+    pros::delay(100);
     chassis.moveToPoint(24.534, -32.965, 600);
     
     
