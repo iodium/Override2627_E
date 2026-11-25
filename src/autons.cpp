@@ -524,9 +524,9 @@ void skills(bool redTeam) {
     chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
     
-    chassis.turnToPoint(24.189, -24.862, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
-    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 90, .minSpeed = 35, .earlyExitRange = 7});
-    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 30});
+    chassis.turnToPoint(22.586, -25.561, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
+    chassis.moveToPoint(22.586, -25.561, 600, {.maxSpeed = 90, .minSpeed = 35, .earlyExitRange = 7});
+    chassis.moveToPoint(22.586, -25.561, 600, {.maxSpeed = 30});
     while (clawSensor.get() > 45) {
 
     }
@@ -538,12 +538,12 @@ void skills(bool redTeam) {
 
     chassis.turnToPoint(25, -40.078, 600);
     chassis.moveToPoint(25, -40.078, 800);
-
+    chassis.waitUntilDone();
     lift.move_absolute(135, 127);
     pros::delay(300);
     claw.retract();
     pros::delay(100);
-    chassis.moveToPoint(24.534, -32.965, 600);
+    chassis.moveToPoint(23.212, -32, 600);
     
     
 }
