@@ -129,7 +129,7 @@ void competition_initialize() {}
  */
 void autonomous() {
 	doinker.retract();
-	left4pin(true);
+	skills(true);
 
 
 

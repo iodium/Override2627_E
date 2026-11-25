@@ -11,6 +11,7 @@ extern pros::ADIPneumatics doinker;
 extern pros::v5::Distance clawSensor;
 
 extern Sensor rightSensor;
+extern Sensor backSensor;
 
 
 extern pros::MotorGroup left_mg, right_mg;
