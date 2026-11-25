@@ -184,7 +184,7 @@ void left4pin(bool redTeam) {
             toggleDone = true;
         }
     }
-    
+
     // drive to alliance goal
     chassis.moveToPoint(19.786, -49.161,  1100, {.maxSpeed = 75});
     pros::delay(1100);
@@ -199,7 +199,7 @@ void left4pin(bool redTeam) {
     double Dy = getResetDistance(rightSensor, 2, chassis.getPose().theta);
     double y = -70 + Dy;
     chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
-    
+
 
     chassis.moveToPoint(14, -55, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
     pros::delay(750);
@@ -232,7 +232,7 @@ void left4pin(bool redTeam) {
     pros::delay(250);
     left_mg.move(0);
     right_mg.move(0);
-    
+
     for (int i = 0; i < 1; i++) {
         double x_offset = rightSensor.sensor.get() / 25.4;
         double x = x_offset - 70;
@@ -240,7 +240,7 @@ void left4pin(bool redTeam) {
     }
 
     // chassis.setPose(23.668, -61, 180);
-    
+
     lift.move_absolute(480, 127);
 
     chassis.turnToHeading(115, 600, {.maxSpeed = 127, .minSpeed = 10});
@@ -274,11 +274,11 @@ void left4pin(bool redTeam) {
     pros::delay(500);
     claw.retract();
     pros::delay(300);
-   
+
     chassis.moveToPoint(2.47, -50, 700, {.forwards = false, .maxSpeed = 127, .minSpeed = 10});
     pros::delay(700);
     lift.move_absolute(0, 127);
-    
+
     // RESET
     Dy = getResetDistance(rightSensor, 2, chassis.getPose().theta);
     y = -70 + Dy;
@@ -305,7 +305,7 @@ void left4pin(bool redTeam) {
         double x = -70 + x_offset;
         chassis.setPose(x, -61, 180);
     }
-    
+
     lift.move_absolute(300, 127);
 
     chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10, .earlyExitRange = 4});
@@ -337,7 +337,7 @@ void left4pin(bool redTeam) {
     // pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
 	//  pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
     // chassis.moveToPoint(0, -61.515,  750, {.forwards = false, .maxSpeed = 127});
-    
+
 
 
 
@@ -362,7 +362,7 @@ void right4pin(bool redTeam) {
             toggleDone = true;
         }
     }
-    
+
     // drive to alliance goal
     chassis.moveToPoint(-19.786, -49.161,  1100, {.maxSpeed = 75});
     pros::delay(1100);
@@ -393,7 +393,7 @@ void right4pin(bool redTeam) {
     pros::delay(250);
     left_mg.move(0);
     right_mg.move(0);
-    
+
     // for (int i = 0; i < 1; i++) {
     //     double x_offset = leftSensor.get() / 25.4;
     //     double x = x_offset - 70;
@@ -401,7 +401,7 @@ void right4pin(bool redTeam) {
     // }
 
     chassis.setPose(-23.668, -61, 180);
-    
+
     lift.move_absolute(360, 127);
 
     chassis.turnToHeading(245, 1000, {.maxSpeed = 127, .minSpeed = 10});
@@ -417,7 +417,7 @@ void right4pin(bool redTeam) {
     lift.move_absolute(180, 90); // lower lift and open claw to release the cup
     pros::delay(200);
     claw.retract();
-    
+
     // chassis.setPose(17.591, -50.801, chassis.getPose().theta);
 
     chassis.moveToPoint(-2.47, -51.8, 700, {.forwards = false, .maxSpeed = 127, .minSpeed = 10});
@@ -440,7 +440,7 @@ void right4pin(bool redTeam) {
     pros::delay(250);
     right_mg.move(0);
     left_mg.move(0);
-    
+
     chassis.setPose(23.481, -61, 180);
 
     lift.move_absolute(540, 127);
@@ -471,7 +471,7 @@ void right4pin(bool redTeam) {
     // pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
 	//  pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
     // chassis.moveToPoint(0, -61.515,  750, {.forwards = false, .maxSpeed = 127});
-    
+
 
 
 
@@ -479,6 +479,94 @@ void right4pin(bool redTeam) {
     //  pros::lcd::print(0, "Theta: %.5f", chassis.getPose().theta); // x
 	// pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
 	// pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
+}
+
+void JADum(int count){
+   // The goal of this is to just do an L-Shape
+   /* Psuedocode
+    * start: (-180.759, -149.765, 270)
+    * Go: (-118.302, -149.765, 270)    -> BACKwards
+    * Turn right to heading 0
+    * Start cascade up to a specific portion
+    * Go: (-118.302, -69.219)          -> Forwards
+    * Claw Open
+    * Go: (-118.302, -149.765) -> BACKwards
+    * Cascade down
+    * Turn left to heading 270
+    * go: (-180.759, -149.765, 270)    -> Forwards
+    */
+
+    // Cascade calculations (derived from notebook) -> 9.75 rotations Is the max height for 6-7(?) pins or 43 inches
+    /*
+    Pins Scored (Index i)	Target Height (in)	Motor Rotations
+    0	                    0.0 in	            0.00
+    1	                    7.0 in	            1.59
+    2	                    13.5 in	            3.06
+    3	                    20.0 in	            4.53
+    4	                    26.5 in	            6.01
+    5	                    33.0 in	            7.48
+    6	                    39.5 in	            8.96
+    */
+
+    // Wait aren't there 2 pins already there
+    double pinRotations[3] = {4.53, 6.01, 7.48};
+    const double centi = 2.54; // Movement is in inches right?
+
+    chassis.setPose(-180/centi, -149.765/centi, 270); // Start
+    chassis.moveToPoint(-118.302/centi, -149.765/centi, 1000, {  // Drive horizontally along the X axis
+        .forwards = false,
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(1000);
+
+    // chassis.turnToHeading(245, 600, {.maxSpeed = 127, .minSpeed = 10}); -> This is the reference code
+    chassis.turnToHeading(0, 600, {
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(600);
+
+    lift.move_absolute(pinRotations[count]*360, 100); // The origional 540/127 was DEGREES right?
+
+    // Drive vertically along the Y axis
+    chassis.moveToPoint(-118.302/centi, -69.219/centi, 1000, {
+        .forwards = true,
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(1000);
+
+    // Open claw to release
+    claw.retract();
+    pros::delay(200);
+
+    // Pin has been theoretically dropped
+
+    // Lower cascade
+    lift.move_absolute(-1*pinRotations[count]*60, 100); // The origional 540/127 was DEGREES right?
+    pros::delay(400);
+
+    // Traverse the y axis
+    chassis.moveToPoint(-118.302/centi, -149.765/centi, 1000, {
+        .forwards = false,
+        .maxSpeed = 127
+        });
+    pros::delay(1000);
+
+    // Turn left to face heading 270
+    chassis.turnToHeading(270, 750, {
+        .maxSpeed = 100,
+        .minSpeed = 10
+    });
+    pros::delay(750);
+
+    // Go back to the start to load the next pin
+    chassis.moveToPoint(-185/centi, -149.765/centi, 400, {
+        .forwards = true,
+        .maxSpeed = 127
+        });
+    pros::delay(400);
 }
 
 void skills(bool redTeam) {
@@ -490,7 +578,7 @@ void skills(bool redTeam) {
     uint32_t startTime = pros::millis();
 
     bool toggleDone = false; // this block flips the toggle to desired color
-    while (!toggleDone) { // (before moving on)
+    while (!toggleDone) { // (before movin)
         toggleDone = autoToggle(redTeam);
         if (pros::millis() - startTime > 2000) {
             toggleDone = true;
@@ -524,9 +612,9 @@ void skills(bool redTeam) {
     chassis.setPose(chassis.getPose().x, y, chassis.getPose().theta);
 
     
-    chassis.turnToPoint(22.586, -25.561, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
-    chassis.moveToPoint(22.586, -25.561, 600, {.maxSpeed = 90, .minSpeed = 35, .earlyExitRange = 7});
-    chassis.moveToPoint(22.586, -25.561, 600, {.maxSpeed = 30});
+    chassis.turnToPoint(24.189, -24.862, 800, {.maxSpeed = 127, .minSpeed = 50, .earlyExitRange = 4});
+    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 90, .minSpeed = 35, .earlyExitRange = 7});
+    chassis.moveToPoint(24.189, -24.862, 600, {.maxSpeed = 30});
     while (clawSensor.get() > 45) {
 
     }
@@ -543,7 +631,7 @@ void skills(bool redTeam) {
     pros::delay(300);
     claw.retract();
     pros::delay(100);
-    chassis.moveToPoint(23.212, -32, 600);
+    chassis.moveToPoint(24.534, -32.965, 600);
     
     
 }
@@ -574,7 +662,7 @@ void skills(bool redTeam) {
 //             toggleDone = true;
 //         }
 //     }
-    
+
 //     // drive to alliance goal
 //     chassis.moveToPoint(19.786, -49.161,  950, {.maxSpeed = 80});
 //     pros::delay(950);
@@ -583,7 +671,7 @@ void skills(bool redTeam) {
 
 //     claw.retract(); // open the claw to drop the pin
 //     pros::delay(300);
-   
+
 //     //resetY();
 
 //     chassis.moveToPoint(6.541, -59, 750, {.forwards = false, .maxSpeed = 127}); // back out from goal
@@ -611,7 +699,7 @@ void skills(bool redTeam) {
 //     right_mg.move(0);
 
 //     chassis.setPose(23.668, -61, 180);
-    
+
 //     lift.move_absolute(360, 127);
 
 //     chassis.turnToHeading(115, 1000, {.maxSpeed = 127, .minSpeed = 10});
@@ -619,14 +707,14 @@ void skills(bool redTeam) {
 
 //     chassis.moveToPoint(6.432, -54.763, 650, {.forwards = false, .maxSpeed = 127}); // back out to set up for 2nd score
 //     pros::delay(650);
-    
+
 //     chassis.moveToPoint(17.449, -47, 600, {.maxSpeed = 100}); // move to 2nd claw scoring
 //     pros::delay(600);
 
 //     lift.move_absolute(180, 90); // lower lift and open claw to release the cup
 //     pros::delay(200);
 //     claw.retract();
-    
+
 //     // chassis.setPose(17.591, -50.801, chassis.getPose().theta);
 
 //     chassis.moveToPoint(2.47, -51.8, 700, {.forwards = false, .maxSpeed = 127});
@@ -655,7 +743,7 @@ void skills(bool redTeam) {
 //     // pros::delay(250);
 //     // right_mg.move(0);
 //     // left_mg.move(0);
-    
+
 //     // chassis.setPose(-23.481, -61, 180);
 
 //     // lift.move_absolute(400, 127);
@@ -672,7 +760,7 @@ void skills(bool redTeam) {
 
 //     // chassis.moveToPoint(-12.58, -53.519, 800, {.forwards = false});
 //     // pros::delay(800);
-    
+
 // }
 
 //  chassis.setPose(0, -61.515, 0);
@@ -736,7 +824,7 @@ void skills(bool redTeam) {
     // lift.move_absolute(180, 90); // lower lift and open claw to release the cup
     // pros::delay(400);
     // claw.retract();
-    
+
     // chassis.setPose(16.981, -49.215, chassis.getPose().theta);
 
     // chassis.moveToPoint(2.47, -55.095, 600, {.forwards = false, .maxSpeed = 127, .minSpeed = 40, .earlyExitRange = 3});
@@ -758,7 +846,7 @@ void skills(bool redTeam) {
     // pros::delay(250);
     // right_mg.move(0);
     // left_mg.move(0);
-    
+
     // chassis.setPose(-23.481, -61, 180);
 
     // lift.move_absolute(400, 127);
@@ -799,4 +887,3 @@ void skills(bool redTeam) {
     // }
 
     // lift.move(0);
-
