@@ -750,6 +750,7 @@ void skills(bool redTeam) {
     pros::delay(400);
     lift.move_absolute(840, 127); // raise lift enough to score
     chassis.turnToPoint(25.178, -43.021, 700); // turn to goal
+    chassis.waitUntilDone();
     pros::delay(100);
 
     // RESET
