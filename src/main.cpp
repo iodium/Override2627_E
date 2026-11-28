@@ -129,7 +129,8 @@ void competition_initialize() {}
  */
 void autonomous() {
 	doinker.retract();
-	skills(true);
+	//skills(true);
+	left4pinFaster(true);
 
 
 
@@ -175,7 +176,7 @@ void autonomous() {
 	// pid tuning code vvv
 	// chassis.calibrate();
     // set position to x:0, y:0, heading:0
-    //  chassis.setPose(0, 0, 0);
+     // chassis.setPose(0, 0, 0);
     // // // // turn to face heading 90 with a very long timeout
 	// // pros::delay(3000);
     // chassis.turnToHeading(90, 1000);
@@ -199,6 +200,10 @@ void autonomous() {
 	// pros::lcd::print(1, "X: %.5f", chassis.getPose().x); // x
 	// pros::lcd::print(2, "Y: %.5f", chassis.getPose().y); // x
 	// chassis.moveToPoint(0, 24, 1500);
+	// pros::delay(3000);
+	// pros::lcd::print(3, "X: %.5f", chassis.getPose().x); // x
+	// pros::lcd::print(4, "Y: %.5f", chassis.getPose().y); // x
+	// chassis.moveToPoint(0, 24, 1500, {.maxSpeed = 80});
 	// pros::delay(1500);
 	// pros::lcd::print(3, "X: %.5f", chassis.getPose().x); // x
 	// pros::lcd::print(4, "Y: %.5f", chassis.getPose().y); // x
